@@ -26,16 +26,13 @@ This project uses the MovieLens 1M dataset which includes:
 
 ## Installation and Setup
 
-1. Clone this repository:
-git clone https://github.com/yourusername/movie-recommender.git
-cd movie-recommender
-Copy
+1. Clone this repository
 2. Install required packages:
 pip install -r requirements.txt
 Copy
 3. Run the app:
 streamlit run app/app.py
-Copy
+
 ## How It Works
 
 The recommendation system uses content-based filtering to find movies similar to a user's preferences:
@@ -58,7 +55,7 @@ movie_recommender/
 │   └── init.py        # Package initialization
 ├── requirements.txt       # Project dependencies
 └── README.md              # Project documentation
-Copy
+
 ## Future Improvements
 
 - Implement collaborative filtering for personalized recommendations
