@@ -6,12 +6,41 @@ import os
 
 class MovieRecommender:
     def __init__(self):
-        # Load processed data
-        data_dir = r"D:\Test_Projects\movie_recommender\data\processed_data"
-        self.movies_df = pd.read_pickle(os.path.join(data_dir, "processed_movies.pkl"))
-        self.ratings_df = pd.read_pickle(os.path.join(data_dir, "processed_ratings.pkl"))
-        self.users_df = pd.read_pickle(os.path.join(data_dir, "processed_users.pkl"))
-        self.full_df = pd.read_pickle(os.path.join(data_dir, "movielens_full.pkl"))
+        # Get the absolute path of the current file (recommender.py)
+        current_file_path = os.path.abspath(__file__)
+        
+        # Get the directory containing this file
+        current_dir = os.path.dirname(current_file_path)
+        
+        # Navigate up to the project root (2 levels up from recommender directory)
+        project_root = os.path.dirname(os.path.dirname(current_dir))
+        
+        # Path to processed data
+        data_dir = os.path.join(project_root, "data", "processed_data")
+        
+        # Check if the directory exists
+        if not os.path.exists(data_dir):
+            # Try alternative path (might be different in deployment)
+            data_dir = os.path.join(os.path.dirname(project_root), "data", "processed_data")
+            
+            # If still doesn't exist, try one more common structure
+            if not os.path.exists(data_dir):
+                data_dir = os.path.join(project_root, "data")
+        
+        print(f"Looking for data in: {data_dir}")
+    
+        # Load the data files
+        try:
+            self.movies_df = pd.read_pickle(os.path.join(data_dir, "processed_movies.pkl"))
+            self.ratings_df = pd.read_pickle(os.path.join(data_dir, "processed_ratings.pkl"))
+            self.users_df = pd.read_pickle(os.path.join(data_dir, "processed_users.pkl"))
+            self.full_df = pd.read_pickle(os.path.join(data_dir, "movielens_full.pkl"))
+            print("Successfully loaded data files")
+        except FileNotFoundError as e:
+            print(f"Error loading data: {e}")
+            print(f"Current directory: {os.getcwd()}")
+            print(f"Files in data_dir: {os.listdir(data_dir) if os.path.exists(data_dir) else 'Directory not found'}")
+            raise
         
         # Initialize similarity matrix
         self.similarity_matrix = None
